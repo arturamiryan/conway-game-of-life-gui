@@ -39,7 +39,7 @@ fn main() -> Result<(), Error> {
     let mut grid = Grid::new(WIDTH as u32, HEIGHT as u32);
     grid.randomize();
     let mut stop = false;
-    let ten_millis = time::Duration::from_millis(10);
+    let mut speed = time::Duration::from_millis(10);
     event_loop.run(move |event, _, control_flow| {
         if let Event::RedrawRequested(_) = event {
             grid.draw(pixels.frame_mut());
@@ -61,13 +61,21 @@ fn main() -> Result<(), Error> {
             if input.key_pressed(VirtualKeyCode::S) {
                 stop = !stop;
             }
+            if input.key_pressed(VirtualKeyCode::Plus) {
+                speed += time::Duration::from_millis(10);
+            } 
+            if input.key_pressed(VirtualKeyCode::Minus) {
+                if !speed.is_zero() {
+                    speed -= time::Duration::from_millis(10);
+                }
+            } 
         }
 
         if !stop {
             grid.check_rules();
         }
         window.request_redraw();
-        thread::sleep(ten_millis);
+        thread::sleep(speed);
     });
 }
 
@@ -106,9 +114,9 @@ impl Grid {
         for row in self.cells.iter() {
             for cell in row {
                 let color = if cell.is_alive() {
-                    [0, 0xff, 0xff, 0xff]
+                    [0, 0xff, 0xff, 0xf9]
                 } else {
-                    [0, 0, 0xff, 0xff]
+                    [0, 0xff, 0x01, 0x05]
                 };
                 pix.next().unwrap().copy_from_slice(&color);
             }
@@ -117,7 +125,7 @@ impl Grid {
     pub fn check_rules(&mut self) {
         for i in 0..HEIGHT {
             for j in 0..WIDTH {
-                self.cells[i as usize][j as usize] = Cell { alive: self.decide(i, j)};
+                self.swap_cells[i as usize][j as usize] = Cell { alive: self.decide(i, j)};
             }
         }
         std::mem::swap(&mut self.swap_cells, &mut self.cells);
