@@ -47,12 +47,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "array2d"
-version = "0.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "79093d31d0a9c7832c71ad74dd945b7861f721e6f242aa67be253a5eecbac937"
-
-[[package]]
 name = "arrayref"
 version = "0.3.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -168,16 +162,10 @@ checksum = "50d30906286121d95be3d479533b458f87493b30a4b5f79a607db8f5d11aa91f"
 name = "cellular_automato"
 version = "0.1.0"
 dependencies = [
- "array2d",
- "byteorder",
  "env_logger",
- "error-iter",
- "getrandom",
  "line_drawing",
- "log",
  "pixels",
  "rand",
- "randomize",
  "winit",
  "winit_input_helper",
 ]
@@ -449,12 +437,6 @@ dependencies = [
  "cc",
  "libc",
 ]
-
-[[package]]
-name = "error-iter"
-version = "0.4.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8070547d90d1b98debb6626421d742c897942bbb78f047694a5eb769495eccd6"
 
 [[package]]
 name = "expat-sys"
@@ -1218,12 +1200,6 @@ checksum = "ec0be4795e2f6a28069bec0b5ff3e2ac9bafc99e6a9a7dc3547996c5c816922c"
 dependencies = [
  "getrandom",
 ]
-
-[[package]]
-name = "randomize"
-version = "3.0.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "88c38c99b51f33c9fcc655252bf02ac8048eb70f35244e4697b0de9c473e940a"
 
 [[package]]
 name = "range-alloc"

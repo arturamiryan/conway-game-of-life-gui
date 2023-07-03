@@ -1,9 +1,8 @@
 #![deny(clippy::all)]
 #![forbid(unsafe_code)]
 
-use std::{thread, time};
-
 use pixels::{Error, Pixels, SurfaceTexture};
+use std::{thread, time};
 use winit::{
     dpi::LogicalSize,
     event::{Event, VirtualKeyCode},
@@ -63,12 +62,12 @@ fn main() -> Result<(), Error> {
             }
             if input.key_pressed(VirtualKeyCode::Plus) {
                 speed += time::Duration::from_millis(10);
-            } 
+            }
             if input.key_pressed(VirtualKeyCode::Minus) {
                 if !speed.is_zero() {
                     speed -= time::Duration::from_millis(10);
                 }
-            } 
+            }
         }
 
         if !stop {
@@ -98,14 +97,16 @@ struct Grid {
 impl Grid {
     pub fn new(width: u32, height: u32) -> Grid {
         Self {
-            cells: vec![vec![Cell {alive: false}; width as usize]; height as usize],
-            swap_cells: vec![vec![Cell {alive: false}; width as usize]; height as usize],
+            cells: vec![vec![Cell { alive: false }; width as usize]; height as usize],
+            swap_cells: vec![vec![Cell { alive: false }; width as usize]; height as usize],
         }
     }
     pub fn randomize(&mut self) {
         for i in 0..HEIGHT as usize {
             for j in 0..WIDTH as usize {
-                self.cells[i][j] = Cell { alive: rand::random()};
+                self.cells[i][j] = Cell {
+                    alive: rand::random(),
+                };
             }
         }
     }
@@ -125,25 +126,29 @@ impl Grid {
     pub fn check_rules(&mut self) {
         for i in 0..HEIGHT {
             for j in 0..WIDTH {
-                self.swap_cells[i as usize][j as usize] = Cell { alive: self.decide(i, j)};
+                self.swap_cells[i as usize][j as usize] = Cell {
+                    alive: self.decide(i, j),
+                };
             }
         }
         std::mem::swap(&mut self.swap_cells, &mut self.cells);
     }
     fn decide(&self, i: i32, j: i32) -> bool {
         let mut cells_alive = 0;
-        for i1 in (i-1)..=(i+1) {
-            for j1 in (j-1)..=(j+1) {
-                if self.cells[((i1 + HEIGHT) % HEIGHT) as usize][((j1 + WIDTH) % WIDTH) as usize].is_alive() {
+        for i1 in (i - 1)..=(i + 1) {
+            for j1 in (j - 1)..=(j + 1) {
+                if self.cells[((i1 + HEIGHT) % HEIGHT) as usize][((j1 + WIDTH) % WIDTH) as usize]
+                    .is_alive()
+                {
                     cells_alive += 1;
                 }
             }
         }
 
-        if self.cells[i as usize][ j as usize].is_alive() {
+        if self.cells[i as usize][j as usize].is_alive() {
             cells_alive -= 1;
         }
 
-        cells_alive == 3 || (cells_alive == 2 && self.cells[i as usize][ j as usize].is_alive())
+        cells_alive == 3 || (cells_alive == 2 && self.cells[i as usize][j as usize].is_alive())
     }
 }
