@@ -165,6 +165,7 @@ dependencies = [
  "env_logger",
  "line_drawing",
  "pixels",
+ "proc-macro2",
  "rand",
  "winit",
  "winit_input_helper",
