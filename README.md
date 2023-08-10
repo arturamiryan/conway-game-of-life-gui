@@ -13,7 +13,12 @@ cargo run --release
 ```
 
 ## Controls
-- S - for stop;
+- With mouse clicks you can draw single cells;
+- S or Space - for stop;
+- B - for blank screen;
 - ESC - for exit;
 - R - for randomize;
 - +/- - Slowdown/speedup simulation.
+
+## Demo
+![](game_of_life_gui.gif)
