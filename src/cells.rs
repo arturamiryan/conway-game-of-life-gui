@@ -1,3 +1,5 @@
+use std::cell::RefCell;
+
 use crate::{HEIGHT, WIDTH};
 
 #[derive(Clone, Copy)]
@@ -37,6 +39,16 @@ pub struct Grid {
     cells: Vec<Vec<Cell>>,
     swap_cells: Vec<Vec<Cell>>,
     cells_color: [u8; 4],
+}
+
+pub struct Grid_color<'a> {
+    owner: &'a RefCell<Grid>,
+}
+
+impl<'a> Grid_color<'a> {
+    fn get_mut_color(&self) -> [u8; 4] {
+        self.owner.borrow().cells_color
+    }
 }
 
 impl Grid {

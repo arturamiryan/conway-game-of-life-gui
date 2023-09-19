@@ -1,9 +1,14 @@
-use egui::widgets::color_picker;
-use egui::{ClippedPrimitive, Context, TexturesDelta};
+use egui::{color_picker, ClippedPrimitive, Color32, Context, TexturesDelta};
 use egui_wgpu::renderer::{Renderer, ScreenDescriptor};
 use pixels::{wgpu, PixelsContext};
 use winit::event_loop::EventLoopWindowTarget;
 use winit::window::Window;
+
+/// Example application state. A real application will need a lot more state than this.
+struct Gui {
+    /// Only show the egui window when true.
+    window_open: bool,
+}
 
 impl Gui {
     /// Create a `Gui`.
@@ -31,7 +36,9 @@ impl Gui {
 
                 ui.separator();
 
-                color_picker_color32(ui, , color_picker::Alpha::Opaque);
+                // TODO: replace with color from grid
+                let mut color = Color32::BLACK;
+                color_picker::color_picker_color32(ui, &mut color, color_picker::Alpha::Opaque);
 
                 ui.horizontal(|ui| {
                     ui.spacing_mut().item_spacing.x /= 2.0;
@@ -54,12 +61,6 @@ pub(crate) struct Framework {
 
     // State for the GUI
     gui: Gui,
-}
-
-/// Example application state. A real application will need a lot more state than this.
-struct Gui {
-    /// Only show the egui window when true.
-    window_open: bool,
 }
 
 impl Framework {
