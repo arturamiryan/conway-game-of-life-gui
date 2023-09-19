@@ -26,6 +26,23 @@
           xorg.libXrandr
         ];
       in
+      {
+        defaultPackage = naersk-lib.buildPackage {
+          src = ./.;
+          doCheck = true;
+          pname = "cellular_automato";
+          nativeBuildInputs = [ pkgs.makeWrapper ];
+          buildInputs = with pkgs; [
+            xorg.libxcb
+          ];
+          postInstall = ''
+            wrapProgram "$out/bin/cellular_automato" --prefix LD_LIBRARY_PATH : "${libPath}"
+          '';
+        };
+
+        defaultApp = utils.lib.mkApp {
+          drv = self.defaultPackage."${system}";
+        };
 
         devShell = with pkgs; mkShell {
           buildInputs = [
